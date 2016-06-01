@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pong</title>
+	<style>
+		
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+		}
+
+	</style>
+</head>
+<body>
+	<canvas id="game"></canvas>
+
+	<!-- Canvas Set Up -->
+	<script>
+
+		var canvas = document.getElementById("game");
+		var ctx = canvas.getContext("2d");
+
+		window.addEventListener("load", scaleCanvasSize);
+		window.addEventListener("resize", scaleCanvasSize);
+
+		function scaleCanvasSize(){
+			canvas.setAttribute('width', window.innerWidth);
+			canvas.setAttribute('height', window.innerHeight);
+			canvas.style.backgroundColor = "#000";
+		};
+
+	</script>
+
+	<!-- Game Objects -->
+	<script src="ball.js"></script>
+	<script src="paddle.js"></script>
+	<script src="pong.js"></script>
+
+	<!-- Game -->
+	<script>
+		
+		var game = new Game(50);
+
+		function gameLoop() {
+			setTimeout(function(){
+				game.run()
+				gameLoop();
+			}, 1000 / game.fps);
+		};
+
+		gameLoop();
+		
+	</script>
+</body>
+</html>
