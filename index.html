@@ -46,14 +46,9 @@
 		
 		var game = new Game(50);
 
-		function gameLoop() {
-			setTimeout(function(){
-				game.run()
-				gameLoop();
-			}, 1000 / game.fps);
-		};
-
-		gameLoop();
+		setInterval( function() {
+          game.run();
+        }, 1000 / game.fps );
 		
 	</script>
 </body>

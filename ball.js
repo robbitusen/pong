@@ -1,28 +1,61 @@
-( function( window, undefined ){
+( function( window, ctx, undefined ){
 
 	window.Ball = function() {
 
-		this.x = 0;
-		this.y = 0;
-		this.height = 15;
-		this.width = 15;
-		this.color = "#ff0000"; 
+		/*
+			Setup options args
+		*/
+		var defaults = {
+			startX: (( window.innerWidth / 2) - 5 ),
+			startY: (( window.innerHeight / 2 ) - 5 ),
+			height: 10,
+			width: 10,
+			color: "#ffffff"
+		}
+
+		if ( arguments[0] && typeof arguments[0] === "object" ) {
+			this.options = extendDefaults( defaults, arguments[0] );
+		}
+
+		/*
+			Assign properties with args
+		*/
+		this.x = this.options.startX;
+		this.y = this.options.startY;
 
 	};
 
-	/* CONTROLS */
-	Ball.prototype.keyDown = function() {
-		this.y += 0;
+	/* 
+		Private Methods 
+	*/
+	function extendDefaults( source, properties ) {
+
+		var property;
+
+		for (property in properties) {
+			if ( properties.hasOwnProperty(property) ){
+				source[property] = properties[property];
+			}
+		}
+
+		return source;
+
+	}
+
+	/* 
+		Public Methods 
+	*/
+	Ball.prototype.mouseMove = function(event) {
+		//this.y = event.clientY;
 	};
 
-	/* GENERIC METHODS */
 	Ball.prototype.update = function() {
-		//console.log("Updating Ball");
+		
 	};
 
 	Ball.prototype.draw = function() {
-		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+		ctx.fillStyle = this.options.color;
+		ctx.fillRect(this.x, this.y, this.options.width, this.options.height);
 	};
 
-})( window );
+})( window, ctx );

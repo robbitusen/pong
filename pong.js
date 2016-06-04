@@ -1,35 +1,51 @@
-( function( window, undefined ){
+( function( window, ctx, undefined ){
 
 	window.Game = function(fps){
 
-		//Setup
-		this.fps = fps;
-		this.entities = [
-			new Ball(),
-			new Paddle(true),
-			new Paddle(false)
+		/*
+			Setup
+		*/
+		this.fps = fps;			//Frames per second
+		this.entities = [ 		//List of game objects
+			new Ball({
+				height: 10,
+				width: 10,
+				color: "#ffffff"
+			}),
+			new Paddle({
+				isPlayer: false,
+				startX: (window.innerWidth - 15),
+				height: 40,
+				width: 15,
+				color: "#ffffff"
+			}),
+			new Paddle({
+				isPlayer: true,
+				height: 25,
+				width: 10,
+				color: "#ffffff"
+			})
 		];
-
-		//Bind some events m8
-		this.bindEvents(this);
+		this.bindEvents(this); 	//Game controls init
 
 	};
 
-	/* Public Methods */
+	/* 
+		Public Methods 
+	*/
 	Game.prototype.run = function() {
 		this.update();
 		this.draw();
 	};
 
-	/* Private Methods */
 	Game.prototype.bindEvents = function(self) {
 
 		console.log("Binding events");
 
-		window.addEventListener("keydown", function(e){
-			e.preventDefault();
+		window.addEventListener("mousemove", function(e){
+			//console.log(e);
 			for (var i = 0; i < self.entities.length; i++) {
-				self.entities[i].keyDown();
+				self.entities[i].mouseMove(e);
 			}
 		});
 
@@ -42,9 +58,16 @@
 	};
 
 	Game.prototype.draw = function(){
+
+		//Blit screen
+		ctx.fillStyle = "#000000";
+		ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+		//Draw objects
 		for (var i = 0; i < this.entities.length; i++) {
 			this.entities[i].draw();
 		}
+
 	};
 	
-})( window );
+})( window, ctx );
